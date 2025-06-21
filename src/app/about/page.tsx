@@ -8,14 +8,17 @@ export default function AboutPage() {
   useEffect(() => {
     fetch("/api/plausible")
       .then((res) => res.json())
-      .then((data) => setData(data));
+      .then((data) => {
+        console.log(data);
+        setData(data);
+      });
   }, []);
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Analytics</h1>
       {data ? (
-        <pre className="bg-gray-100 p-4 rounded">
+        <pre className="bg-gray-100 text-black p-4 rounded">
           {JSON.stringify(data, null, 2)}
         </pre>
       ) : (
