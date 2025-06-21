@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 declare global {
   interface Window {
     plausible?: {
-      q?: any[];
-      (...args: any[]): void;
+      q?: unknown[];
+      (...args: unknown[]): void;
     };
   }
 }
@@ -25,21 +25,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* ✅ Plausible script with correct domain */}
         <script
           defer
           data-domain="pl-git-main-shahwaizzahids-projects.vercel.app"
           src="https://plausible.io/js/script.file-downloads.outbound-links.tagged-events.js"
         ></script>
-        {/*
-  Inject Plausible initialization script using dangerouslySetInnerHTML
-*/}
+
+        {/* ✅ Safe inline setup for custom events */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-      window.plausible = window.plausible || function () {
-        (window.plausible.q = window.plausible.q || []).push(arguments);
-      };
-    `,
+              window.plausible = window.plausible || function () {
+                (window.plausible.q = window.plausible.q || []).push(arguments);
+              };
+            `,
           }}
         />
       </head>
