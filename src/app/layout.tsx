@@ -7,6 +7,16 @@ export const metadata: Metadata = {
   description: "Trackable site with Plausible",
 };
 
+// Extend the Window interface to include plausible
+declare global {
+  interface Window {
+    plausible?: {
+      q?: any[];
+      (...args: any[]): void;
+    };
+  }
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -15,21 +25,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* ✅ Official Plausible script with outbound links + tagged events */}
         <script
           defer
-          data-domain="sokoverse.is-cool.dev"
+          data-domain="pl-git-main-shahwaizzahids-projects.vercel.app"
           src="https://plausible.io/js/script.file-downloads.outbound-links.tagged-events.js"
         ></script>
-
-        {/* ✅ Optional inline setup for custom events */}
+        {/*
+  Inject Plausible initialization script using dangerouslySetInnerHTML
+*/}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              window.plausible = window.plausible || function() {
-                (window.plausible.q = window.plausible.q || []).push(arguments)
-              }
-            `,
+      window.plausible = window.plausible || function () {
+        (window.plausible.q = window.plausible.q || []).push(arguments);
+      };
+    `,
           }}
         />
       </head>
