@@ -1,28 +1,26 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { usePlausible } from "next-plausible";
+import { useEffect, useState } from "react";
 
-export default function About() {
-  const plausible = usePlausible();
-
-  const login = () => {
-    plausible("login");
-  };
+export default function AboutPage() {
+  const [data, setData] = useState<unknown>(null);
 
   useEffect(() => {
     fetch("/api/plausible")
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch(() => console.log("kj"));
+      .then((data) => setData(data));
   }, []);
 
   return (
-    <>
-      <div>About Page</div>
-      <button onClick={login}>login</button>
-    </>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Analytics</h1>
+      {data ? (
+        <pre className="bg-gray-100 p-4 rounded">
+          {JSON.stringify(data, null, 2)}
+        </pre>
+      ) : (
+        "Loading..."
+      )}
+    </div>
   );
 }
